@@ -1,0 +1,54 @@
+{
+  "$comment": "Example ~/.claude/settings.json (or <repo>/.claude/settings.json for a team). Adjust the ~/.claude/hooks/* paths to your own. Do NOT copy 1:1 over a live config — merge the sections in.",
+
+  "model": "opus",
+
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
+
+  "permissions": {
+    "deny": [
+      "Bash(git merge:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git push --force:*)"
+    ]
+  },
+
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/block-git-merge.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/session-summary.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"Claude is waiting for input\" with title \"Claude Code\" sound name \"Glass\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
